@@ -2,6 +2,8 @@
 
 use strict;
 use warnings;
+use Getopt::Long;
+use Config;
 use File::Spec;
 use inc::Module::Install;
 
@@ -15,21 +17,38 @@ requires 'Config';
 
 build_requires 'Test::More' => '0.94';
 
-install_script glob('script/*.pl');
 auto_install;
 WriteAll;
 
-my $running_under_local_lib = 0;
-
-use Data::Dumper;
-warn Dumper \%ENV;
 
 if(
-    @ARGV || 
-    $ENV{LOCAL_LIB_HELPER_BOOTSTRAP} ||
-    ($ENV{PERL_MM_OPT} and 
-      ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT}))
+    $ENV{PERL_MM_OPT} and 
+    ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT})
 ) {
-    my @args = grep {!m/--bootstrap/} @ARGV;
-    system($^X, File::Spec->catdir('script', 'build_local_lib_helper'), @args);
+    require 'lib/App/local/lib/helper.pm';
+
+    my $help = 0;
+    my $which_perl = $ENV{LOCALLIB_HELPER_WHICH_PERL} || $Config{perlpath};
+    my $target = $ENV{LOCALLIB_HELPER_TARGET} || undef;
+    my $helper_name = $ENV{LOCALLIB_HELPER_HELPER_NAME} || 'localenv';
+    my $helper_permissions = $ENV{LOCALLIB_HELPER_HELPER_PERMISSIONS} || '0755';
+
+    my $result = GetOptions(
+        'h|help' => \$help,
+        'p|which_perl=s' => \$which_perl,
+        't|target=s' => \$target,
+        'n|helper_name=s' => \$helper_name,
+        'p|helper_permissions=s' => \$helper_permissions,
+    );
+
+    if($help || !$result) {
+        print "Help Docs coming soon\n";
+    } else {
+        App::local::lib::helper->run(
+            which_perl => $which_perl,
+            target => $target,
+            helper_name => $helper_name,
+            helper_permissions => $helper_permissions,
+        );
+    }
 }
