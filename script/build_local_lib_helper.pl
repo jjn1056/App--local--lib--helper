@@ -12,7 +12,7 @@ use App::local::lib::helper;
 my $help = 0;
 my $which_perl = $ENV{LOCALLIB_WHICH_PERL} || $Config{perlpath};
 my $target = $ENV{LOCALLIB_TARGET} || undef;
-my $helper_name = $ENV{LOCALLIB_HELPER_NAME} || 'localenv2';
+my $helper_name = $ENV{LOCALLIB_HELPER_NAME} || 'localenv3';
 my $helper_permissions = $ENV{LOCALLIB_HELPER_PERMISSIONS} || '0755';
 
 my $result = GetOptions(

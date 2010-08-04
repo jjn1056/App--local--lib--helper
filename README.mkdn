@@ -1,0 +1,28 @@
+# NAME
+
+App::local::lib::helper - Functionality to build a [local::lib](http://search.cpan.org/perldoc?local::lib) helper script
+
+# SYNOPSIS
+
+    use App::local::lib::helper;
+    App::local::lib::helper->run(%opts);
+
+# DESCRIPTION
+
+This is an object with provide the functionality to create a [local::lib](http://search.cpan.org/perldoc?local::lib)
+'helper' script in either the currently loaded [local::lib](http://search.cpan.org/perldoc?local::lib) enviroment or in
+a target directory of choice.
+
+You should see the POD for the helper script as well as the script which is
+using this class.  You probably won't use this class directly.
+
+# AUTHOR
+
+John Napiorkowski ` <<jjnapiork@cpan.org`> >
+
+# COPYRIGHT & LICENSE
+
+Copyright 2010, John Napiorkowski
+
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.

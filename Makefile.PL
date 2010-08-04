@@ -11,7 +11,7 @@ requires 'Getopt::Long';
 requires 'Pod::Usage';
 requires 'Config';
 
-build_requires 'Test::More' => '0.94'i;
+build_requires 'Test::More' => '0.94';
 
 install_script glob('script/*.pl');
 auto_install;
