@@ -21,6 +21,9 @@ WriteAll;
 
 my $running_under_local_lib = 0;
 
+use Data::Dumper;
+warn Dumper \%ENV;
+
 if(
     @ARGV || 
     $ENV{LOCAL_LIB_HELPER_BOOTSTRAP} ||

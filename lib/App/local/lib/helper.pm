@@ -52,23 +52,15 @@ sub has_local_lib_env {
     }
 }
 
-sub has_local_lib_inc {
-    my ($self, $target) = @_;    
-    return eval {
-        require local::lib;
-        1;
-    }
-}
-
 sub _create_local_lib_helper {
     my ($self, $target) = @_;
     $self->diag("My target local::lib is $target");
-    if($self->has_local_lib_inc($target)) {
-        my $lib = File::Spec->catdir($target, 'lib', 'perl5');
-        my $bin = File::Spec->catdir($target, 'bin', $self->{helper_name});
-        open(my $bin_fh, '>', $bin)
-          or $self->error("Can't open $bin", $!);
-        print $bin_fh <<"END";
+    my $lib = File::Spec->catdir($target, 'lib', 'perl5');
+    my $bin = File::Spec->catdir($target, 'bin', $self->{helper_name});
+    open(my $bin_fh, '>', $bin)
+      or $self->error("Can't open $bin", $!);
+
+    print $bin_fh <<"END";
 #!$self->{which_perl}
 
 use strict;
@@ -85,13 +77,10 @@ unless ( caller ) {
 
 1;
 END
-        close($bin_fh);
-        chmod oct($self->{helper_permissions}), $bin;
-        return $bin;
-    } else {
-        $self->diag('There is no local::lib found in the include path!');
-        $self->diag('@INC is: ', "\n", map { "\t$_\n"} @INC);
-    }
+
+    close($bin_fh);
+    chmod oct($self->{helper_permissions}), $bin;
+    return $bin;
 }
 
 sub _diag {
