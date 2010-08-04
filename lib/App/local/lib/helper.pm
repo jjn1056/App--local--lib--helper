@@ -12,6 +12,20 @@ sub run {
     my $local_lib_helper = __PACKAGE__->new(%opts);
     return $local_lib_helper->create_local_lib_helper;
 }
+
+sub _diag {
+    my $self = shift @_;
+    print STDERR @_, "\n";
+}
+
+sub diag {
+    shift->_diag(@_);
+}
+
+sub error {
+    shift->_diag(@_);
+    die "Exiting with Errors";
+}
    
 sub new {
     my ($class, %opts) = @_;
@@ -20,7 +34,6 @@ sub new {
 
 sub create_local_lib_helper {
     my $self = shift;
-  
     if (my $target = $self->{target}) {
         return $self->_create_local_lib_helper($target);
     } elsif ($self->has_local_lib_env) {
@@ -81,20 +94,6 @@ END
     close($bin_fh);
     chmod oct($self->{helper_permissions}), $bin;
     return $bin;
-}
-
-sub _diag {
-    my $self = shift @_;
-    print STDERR @_, "\n";
-}
-
-sub diag {
-    shift->_diag(@_);
-}
-
-sub error {
-    shift->_diag(@_);
-    die "Exiting with Errors";
 }
 
 1;

@@ -4,26 +4,25 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Config;
-use File::Spec;
 use inc::Module::Install;
 
 all_from 'lib/App/local/lib/helper.pm';
 repository 'git://github.com/jjn1056/App--local--lib--helper.git';
 
 requires 'File::Spec';
-requires 'Getopt::Long';
-requires 'Pod::Usage';
-requires 'Config';
 
+build_requires 'Getopt::Long';
+build_requires 'Config';
 build_requires 'Test::More' => '0.94';
 
 auto_install;
 WriteAll;
 
-
+## If we are running under local::lib, then install a helper
 if(
-    $ENV{PERL_MM_OPT} and 
-    ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT})
+    @ARGV ||
+    ($ENV{PERL_MM_OPT} and 
+    ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT}))
 ) {
     require 'lib/App/local/lib/helper.pm';
 
