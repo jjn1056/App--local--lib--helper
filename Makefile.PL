@@ -10,6 +10,7 @@ all_from 'lib/App/local/lib/helper.pm';
 repository 'git://github.com/jjn1056/App--local--lib--helper.git';
 
 requires 'File::Spec';
+requires 'local::lib';
 
 build_requires 'Getopt::Long';
 build_requires 'Config';
