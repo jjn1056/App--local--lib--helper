@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use File::Spec;
 
+use 5.008008;
 our $VERSION = '0.01';
 
 sub run {
@@ -14,18 +15,13 @@ sub run {
    
 sub new {
     my ($class, %opts) = @_;
-    return bless {
-        which_perl => $ENV{LOCALLIB_WHICH_PERL} || $^X,
-        local_lib_target => $ENV{LOCALLIB_TARGET} || undef,
-        helper_name => $ENV{LOCALLIB_HELPER_NAME} || 'localenv',
-        helper_permissions => $ENV{LOCALLIB_HELPER_PERMISSIONS} || '0755',
-    }, $class;
+    return bless \%opts, $class;
 }
 
 sub create_local_lib_helper {
     my $self = shift;
   
-    if (my $target = $self->{local_lib_target}) {
+    if (my $target = $self->{target}) {
         return $self->_create_local_lib_helper($target);
     } elsif ($self->has_local_lib_env) {
         my ($install_base, $target) =
@@ -60,7 +56,6 @@ sub has_local_lib_inc {
     my ($self, $target) = @_;    
     return eval {
         require local::lib;
-        local::lib->import($target);
         1;
     }
 }
@@ -110,7 +105,7 @@ sub diag {
 
 sub error {
     shift->_diag(@_);
-    exit 0;
+    die "Exiting with Errors";
 }
 
 1;
@@ -132,6 +127,17 @@ a target directory of choice.
 
 You should see the POD for the helper script as well as the script which is
 using this class.  You probably won't use this class directly.
+
+=head1 AUTHOR
+
+John Napiorkowski C< <<jjnapiork@cpan.org>> >
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2010, John Napiorkowski
+
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =cut
 
