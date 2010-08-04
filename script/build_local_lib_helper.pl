@@ -10,10 +10,10 @@ use lib "$Bin/../lib";
 use App::local::lib::helper;
 
 my $help = 0;
-my $which_perl = $ENV{LOCALLIB_WHICH_PERL} || $Config{perlpath};
-my $target = $ENV{LOCALLIB_TARGET} || undef;
-my $helper_name = $ENV{LOCALLIB_HELPER_NAME} || 'localenv3';
-my $helper_permissions = $ENV{LOCALLIB_HELPER_PERMISSIONS} || '0755';
+my $which_perl = $ENV{LOCALLIB_HELPER_WHICH_PERL} || $Config{perlpath};
+my $target = $ENV{LOCALLIB_HELPER_TARGET} || undef;
+my $helper_name = $ENV{LOCALLIB_HELPER_HELPER_NAME} || 'localenv';
+my $helper_permissions = $ENV{LOCALLIB_HELPER_HELPER_PERMISSIONS} || '0755';
 
 my $result = GetOptions(
     'h|help' => \$help,
