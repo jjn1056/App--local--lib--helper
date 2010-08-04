@@ -28,5 +28,5 @@ if(
       ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT}))
 ) {
     my @args = grep {!m/--bootstrap/} @ARGV;
-    system($^X, File::Spec->catdir('script', 'build_local_lib_helper.pl'), @args);
+    system($^X, File::Spec->catdir('script', 'build_local_lib_helper'), @args);
 }
