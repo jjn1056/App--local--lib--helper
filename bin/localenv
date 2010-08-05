@@ -1,0 +1,14 @@
+#!/usr/bin/env perl
+
+print <<"END";
+
+This is a placeholder.  If you see this, chances are good something went wrong
+when you tried to install App::local::lib::helper
+
+It is also possible that you override the 'helper_name' option when installing.
+
+Try to get in touch with the author and lets fix it up!
+
+END
+
+1;
