@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Getopt::Long;
+use Getopt::Long ();
 use Config;
 use inc::Module::Install;
 
@@ -33,7 +33,7 @@ if(
     my $helper_name = $ENV{LOCALLIB_HELPER_HELPER_NAME} || 'localenv';
     my $helper_permissions = $ENV{LOCALLIB_HELPER_HELPER_PERMISSIONS} || '0755';
 
-    my $result = GetOptions(
+    my $result = Getopt::Long::GetOptions(
         'h|help' => \$help,
         'p|which_perl=s' => \$which_perl,
         't|target=s' => \$target,
@@ -42,7 +42,20 @@ if(
     );
 
     if($help || !$result) {
-        print "Help Docs coming soon\n";
+        print <<'END';
+Usage: perl Makefile.PL %OPTIONS
+
+Options:
+  -h,--help                 This help message
+  -p,--which_perl           The Perl binary we are building the helper for (default: $^X)
+  -t,--target               The local::lib we are building the helper for (default is current)
+  -n,--helper_name          Name of the helper script (default: localenv)
+  -p,--helper_permissions   Permissions given to the helper script (default 775)
+
+Type `perldoc App::local::lib::helper` or `perldoc App::local::lib::helper::rationale`
+for more details.
+
+END
     } else {
         App::local::lib::helper->run(
             which_perl => $which_perl,
