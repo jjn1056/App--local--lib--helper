@@ -15,10 +15,18 @@ build_requires 'Getopt::Long';
 build_requires 'Config';
 build_requires 'Test::More' => '0.94';
 
+my $local_lib_helper_script = File::Spec->catdir('script','local-lib-helper');
+postamble <<"EOP";
+install :: install_local_lib_helper
+
+install_local_lib_helper :
+\t\$(PERL) $local_lib_helper_script @ARGV
+
+EOP
+
 install_script glob('script/*.pl');
 auto_install;
 WriteAll;
 
-## If we are running under local::lib, then install a helper
-system($^X, File::Spec->catdir('script','local-lib-helper'), @ARGV);
+## system($^X, File::Spec->catdir('script','local-lib-helper'), @ARGV);
 
