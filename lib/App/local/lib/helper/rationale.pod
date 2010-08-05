@@ -186,7 +186,7 @@ We can then startup L<Gitalist>:
 
 Hopefully this eases some of your deployment issues!
 
-=head AUTHOR
+=head1 AUTHOR
 
 John Napiorkowski C< <<jjnapiork@cpan.org>> >
 
