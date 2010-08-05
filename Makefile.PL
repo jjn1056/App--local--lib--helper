@@ -28,5 +28,3 @@ install_script glob('script/*.pl');
 auto_install;
 WriteAll;
 
-## system($^X, File::Spec->catdir('script','local-lib-helper'), @ARGV);
-
