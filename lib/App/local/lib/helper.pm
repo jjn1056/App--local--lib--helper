@@ -73,7 +73,7 @@ sub _create_local_lib_helper {
     unless(-e $bin) {
         mkdir $bin;
     }
-    my $bin = File::Spec->catdir($bin, $self->{helper_name});
+    $bin = File::Spec->catdir($bin, $self->{helper_name});
     open(my $bin_fh, '>', $bin)
       or $self->error("Can't open $bin", $!);
 
@@ -121,9 +121,16 @@ against.  For example, assume you build a L<local::lib> like so:
 
     cpanm -L ~/mylib App::local::lib::helper
 
-This creates a directory "~/mylib" and installs L<App::local::lib::helper> and
-a utility script into "~/mylib/bin".  Now, if you want to invoke a perl 
-application and use libs installed into "~/mylib", you can do so like:
+Note what is happening.  First, you are telling cpanminus to install everything
+to a local::lib directory called "~/mylib" (cpanminus behind the scenes uses
+L<local::lib> to do this for you) then you are telling cpanminus to install the
+distribution L<App::local::lib::helper> into that created local lib directory.
+When the Makefile.PL script for L<App::local::lib::helper> runs, it notices
+the fact that it is being asked to install into a locally lib managed directory
+and will additionally generate a helper script into "~/mylib/bin" called "localenv".
+
+Now, if you want to invoke a perl application and use libs installed into 
+"~/mylib", you can do so like:
 
     ~/mylib/bin/locallib perl [SOME COMMAND]
 
