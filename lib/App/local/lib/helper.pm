@@ -69,7 +69,11 @@ sub _create_local_lib_helper {
     my ($self, $target) = @_;
     $self->diag("My target local::lib is $target");
     my $lib = File::Spec->catdir($target, 'lib', 'perl5');
-    my $bin = File::Spec->catdir($target, 'bin', $self->{helper_name});
+    my $bin = File::Spec->catdir($target, 'bin');
+    unless(-e $bin) {
+        mkdir $bin;
+    }
+    my $bin = File::Spec->catdir($bin, $self->{helper_name});
     open(my $bin_fh, '>', $bin)
       or $self->error("Can't open $bin", $!);
 
