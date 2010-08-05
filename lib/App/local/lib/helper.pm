@@ -132,7 +132,7 @@ and will additionally generate a helper script into "~/mylib/bin" called "locale
 Now, if you want to invoke a perl application and use libs installed into 
 "~/mylib", you can do so like:
 
-    ~/mylib/bin/locallib perl [SOME COMMAND]
+    ~/mylib/bin/localenv perl [SOME COMMAND]
 
 The command C<locallib> will make sure the same L<local:lib> that was active
 when L<App::local::lib::helper> was originally installed is again installed
@@ -146,7 +146,7 @@ The arguments given to C<locallib> don't need to be a perl application.  For
 example, I often like to open a sub shell under a particular L<local::lib>
 managed directory.
 
-    ~/mylib/bin/locallib bash
+    ~/mylib/bin/localenv bash
 
 Now, if I do:
 
