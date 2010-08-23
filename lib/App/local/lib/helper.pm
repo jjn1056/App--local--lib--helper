@@ -44,6 +44,7 @@ sub create_local_lib_helper {
         $self->diag("My target local::lib is $target");
         $self->_create_local_lib_helper($target);
         $self->_create_local_lib_helper_bashrc($target);
+        $self->_create_local_lib_helper_cshrc($target);
     }
     
     $self->diag(<<DIAG);
@@ -121,7 +122,25 @@ END
     return $bin;
 }
 
+sub _create_local_lib_helper_cshrc {
+    my ($self, $target) = @_;
+    my $lib = File::Spec->catdir($target, 'lib', 'perl5');
+    my $bin = File::Spec->catdir($target, 'bin');
+    unless(-e $bin) {
+        mkdir $bin;
+    }
+    $bin = File::Spec->catdir($bin, $self->{helper_name}.'-cshrc');
+    open(my $bin_fh, '>', $bin)
+      or $self->error("Can't open $bin", $!);
 
+    print $bin_fh <<"END";
+$self->{which_perl} -I$lib -Mlocal::lib=$target
+END
+
+    close($bin_fh);
+    chmod oct($self->{helper_permissions}), $bin;
+    return $bin;
+}
 
 1;
 
