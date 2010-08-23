@@ -49,6 +49,8 @@ END
             helper_permissions => $helper_permissions,
         );
     }
+} else {
+    print "No Arguments or local::lib detected!\n";
 }
 
 =head1 NAME
@@ -67,7 +69,7 @@ need an easy way to programmatically create the helper scripts for either an
 activated or precreated L<local::lib>.  This script makes that easy.  If you
 are already in a L<local::lib> managed environment this script will detect that
 fact and automatically install the helpers into the C<bin> directory of that
-<local::lib>.  If there is not a currently activated L<local::lib>, you can
+L<local::lib>.  If there is not a currently activated L<local::lib>, you can
 still install the helpers as long as you've already created a L<local::lib>
 in the past (say via the self bootstrap method outlined in the documention,
 or when you specified a C<-l> option with L<App::cpanminus>).  In that case

@@ -157,34 +157,34 @@ App::local::lib::helper - Make it easy to run code against a local-lib
 
 This is an object which provide the functionality to create a L<local::lib>
 'helper' script in either the currently loaded L<local::lib> environment or in
-a target directory of choice.  By default the script is called 'localenv' and
+a target directory of choice.  By default the script is called C<localenv> and
 can be used to invoke a command under the L<local::lib> which it was built
 against.  For example, assume you build a L<local::lib> like so:
 
     cpanm -L ~/mylib App::local::lib::helper
 
 Note what is happening.  First, you are telling cpanminus to install everything
-to a local::lib directory called "~/mylib" (cpanminus behind the scenes uses
+to a local::lib directory called C<~/mylib> (cpanminus behind the scenes uses
 L<local::lib> to do this for you) then you are telling cpanminus to install the
-distribution L<App::local::lib::helper> into that created local lib directory.
-When the Makefile.PL script for L<App::local::lib::helper> runs, it notices
+distribution L<App::local::lib::helper> into that created L<local::lib> directory.
+When the C<Makefile.PL> script for L<App::local::lib::helper> runs, it notices
 the fact that it is being asked to install into a locally lib managed directory
-and will additionally generate a helper script into "~/mylib/bin" called "localenv".
+and will additionally generate a helper script into C<~/mylib/bin> called C<localenv>.
 
 Now, if you want to invoke a perl application and use libs installed into 
-"~/mylib", you can do so like:
+C<~/mylib>, you can do so like:
 
     ~/mylib/bin/localenv perl [SOME COMMAND]
 
 The command C<locallib> will make sure the same L<local:lib> that was active
 when L<App::local::lib::helper> was originally installed is again installed
-into the environment before executing the commands passed in @ARGV.  Upon
+into the environment before executing the commands passed in C<@ARGV>.  Upon
 completing the command, the %ENV is restored so that you can use this to fire
 off an application against a specific L<local::lib> without needing to deal
 with the details of how to activate the L<local::lib> or how to make sure
-your %ENV stays clean.
+your C<%ENV> stays clean.
 
-The arguments given to C<locallib> don't need to be a perl application.  For
+The arguments given to C<local::lib> don't need to be a perl application.  For
 example, I often like to open a sub shell under a particular L<local::lib>
 managed directory.
 
