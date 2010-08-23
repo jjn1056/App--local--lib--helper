@@ -1,6 +1,6 @@
 # NAME
 
-App::local::lib::helper - Make it easy to run code against a [local::lib](http://search.cpan.org/perldoc?local::lib)
+App::local::lib::helper - Make it easy to run code against a local-lib
 
 # SYNOPSIS
 
@@ -28,7 +28,7 @@ and will additionally generate a helper script into "~/mylib/bin" called "locale
 Now, if you want to invoke a perl application and use libs installed into 
 "~/mylib", you can do so like:
 
-    ~/mylib/bin/locallib perl [SOME COMMAND]
+    ~/mylib/bin/localenv perl [SOME COMMAND]
 
 The command `locallib` will make sure the same L<local:lib> that was active
 when [App::local::lib::helper](http://search.cpan.org/perldoc?App::local::lib::helper) was originally installed is again installed
@@ -42,7 +42,7 @@ The arguments given to `locallib` don't need to be a perl application.  For
 example, I often like to open a sub shell under a particular [local::lib](http://search.cpan.org/perldoc?local::lib)
 managed directory.
 
-    ~/mylib/bin/locallib bash
+    ~/mylib/bin/localenv bash
 
 Now, if I do:
 
@@ -64,6 +64,26 @@ one root directory all under regular user privileges.
 
 [local::lib](http://search.cpan.org/perldoc?local::lib) does all the real work, but I find this to be the easiest way to
 run given code against a [local::lib](http://search.cpan.org/perldoc?local::lib) root.  
+
+## Additional Helpers
+
+In addition to the `localenv` script which is documented above, we also create
+two snippets of code suitable for including in your `.bashrc` or `.cshrc`.
+These are created to help people that only want or need a single local-lib and
+would like to activate it at login.  If you'd like to use these, simple add the
+following tot he end of your `.bashrc`
+
+    source $TARGET/bin/localenv-bashrc
+
+Where $TARGET is the root of your local-lib (the directory that contains you
+bin and lib directories).
+
+Next time you log in, you can do `perl -V` and should see that your local-lib
+has automatically been activated.
+
+There will also be a `source $TARGET/bin/localenv-cshrc` created for those of
+you using csh.  Currently this is not going to work with Windows shell users,
+but should be easy to setup, collaborations very welcomed.
 
 # OPTIONS
 
@@ -90,6 +110,27 @@ This is the name of the helper utility script.  It defaults to 'localenv'.
 
 These are the permissions the the helper utility script is set to.  By default
 we set the equivilent of 'chmod 755 [HELPER SCRIPT]'
+
+# HELPERS
+
+This distribution installs the following [local::lib](http://search.cpan.org/perldoc?local::lib) helpers
+
+## localenv
+
+This is a perl script that runs a single command in [local::lib](http://search.cpan.org/perldoc?local::lib) aware context.
+You can use the `helper-name` option to set a different name.
+
+## localenv-bashrc
+
+a snippet suitable for sourcing in your .bashrc, which will automatically
+activate a local-lib at login.  Name will follow from `helper-name`.
+
+## localenv-cshrc
+
+a snippet suitable for sourcing in your .cshrc, which will automatically
+activate a local-lib at login.  Name will follow from `helper-name`.
+
+
 
 # AUTHOR
 
