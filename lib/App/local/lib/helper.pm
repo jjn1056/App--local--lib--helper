@@ -41,7 +41,9 @@ sub create_local_lib_helper {
             map {split '=', $_} 
             grep { m/^INSTALL_BASE/ }
             split ' ', $ENV{PERL_MM_OPT};
-        return $self->_create_local_lib_helper($target);
+        $self->diag("My target local::lib is $target");
+        $self->_create_local_lib_helper($target);
+        $self->_create_local_lib_helper_bashrc($target);
     }
     
     $self->diag(<<DIAG);
@@ -67,7 +69,6 @@ sub has_local_lib_env {
 
 sub _create_local_lib_helper {
     my ($self, $target) = @_;
-    $self->diag("My target local::lib is $target");
     my $lib = File::Spec->catdir($target, 'lib', 'perl5');
     my $bin = File::Spec->catdir($target, 'bin');
     unless(-e $bin) {
@@ -100,11 +101,33 @@ END
     return $bin;
 }
 
+sub _create_local_lib_helper_bashrc {
+    my ($self, $target) = @_;
+    my $lib = File::Spec->catdir($target, 'lib', 'perl5');
+    my $bin = File::Spec->catdir($target, 'bin');
+    unless(-e $bin) {
+        mkdir $bin;
+    }
+    $bin = File::Spec->catdir($bin, $self->{helper_name}.'-bashrc');
+    open(my $bin_fh, '>', $bin)
+      or $self->error("Can't open $bin", $!);
+
+    print $bin_fh <<"END";
+eval $($self->{which_perl} -I$lib -Mlocal::lib=$target)
+END
+
+    close($bin_fh);
+    chmod oct($self->{helper_permissions}), $bin;
+    return $bin;
+}
+
+
+
 1;
 
 =head1 NAME
 
-App::local::lib::helper - Make it easy to run code against a L<local::lib>
+App::local::lib::helper - Make it easy to run code against a local-lib
 
 =head1 SYNOPSIS
 

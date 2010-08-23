@@ -24,7 +24,7 @@ install_local_lib_helper :
 
 EOP
 
-install_script glob('script/*.pl');
+install_script glob('script/local-lib-helper');
 auto_install;
 WriteAll;
 
