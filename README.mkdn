@@ -30,7 +30,7 @@ Now, if you want to invoke a perl application and use libs installed into
 
     ~/mylib/bin/localenv perl [SOME COMMAND]
 
-The command `locallib` will make sure the same L<local:lib> that was active
+The command `localenv` will make sure the same L<local:lib> that was active
 when [App::local::lib::helper](http://search.cpan.org/perldoc?App::local::lib::helper) was originally installed is again installed
 into the environment before executing the commands passed in `@ARGV`.  Upon
 completing the command, the %ENV is restored so that you can use this to fire
@@ -38,7 +38,7 @@ off an application against a specific [local::lib](http://search.cpan.org/perldo
 with the details of how to activate the [local::lib](http://search.cpan.org/perldoc?local::lib) or how to make sure
 your `%ENV` stays clean.
 
-The arguments given to `local::lib` don't need to be a perl application.  For
+The arguments given to `localenv` don't need to be a perl application.  For
 example, I often like to open a sub shell under a particular [local::lib](http://search.cpan.org/perldoc?local::lib)
 managed directory.
 
@@ -48,8 +48,8 @@ Now, if I do:
 
     perl -V
 
-I'll see that ~/mylib has been added to @INC.  Additionally, "~/mylib/bin" will
-have been added to $PATH, so that any command line perl applications installed
+I'll see that i`~/mylib` has been added to `@INC`.  Additionally, `~/mylib/bin` will
+have been added to `$PATH`, so that any command line perl applications installed
 into the [local::lib](http://search.cpan.org/perldoc?local::lib) (such as `ack` or `cpanm`) can be accessed easily.
 
 Another example usage would be when you want to install an application from
@@ -69,14 +69,14 @@ run given code against a [local::lib](http://search.cpan.org/perldoc?local::lib)
 
 In addition to the `localenv` script which is documented above, we also create
 two snippets of code suitable for including in your `.bashrc` or `.cshrc`.
-These are created to help people that only want or need a single local-lib and
+These are created to help people that only want or need a single local lib and
 would like to activate it at login.  If you'd like to use these, simple add the
 following tot he end of your `.bashrc`
 
     source $TARGET/bin/localenv-bashrc
 
-Where $TARGET is the root of your local-lib (the directory that contains you
-bin and lib directories).
+Where $TARGET is the root of your local lib (the directory that contains your
+`bin` and `lib` directories created when you ran the helper).
 
 Next time you log in, you can do `perl -V` and should see that your local-lib
 has automatically been activated.
