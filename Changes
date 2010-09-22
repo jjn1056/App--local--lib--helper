@@ -1,3 +1,9 @@
+0.03    22 September 2010
+        -- Changes to the Makefile.PL for more automation and for clarity. This
+           should not effect installation or usage, but should clarify things
+           for authors.
+        -- Fixed various typos in the pod documentation
+        
 0.02    23 August 2010
         -- Document and include the commandline helper script builder so that
            people who need to scrit custom deployments can do so.

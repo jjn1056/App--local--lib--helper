@@ -2,9 +2,9 @@
 
 use strict;
 use warnings;
+
 use File::Spec;
 use inc::Module::Install 1.00;
-
 use Module::Install::Repository 0.06;
 use Module::Install::AutoManifest 0.003;
 use Module::Install::ReadmeMarkdownFromPod 0.003;
