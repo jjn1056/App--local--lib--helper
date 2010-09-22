@@ -19,10 +19,10 @@ lot of it :)
 
 Generally speaking, I think L<local::lib> is awesome.  It deals very concisely
 with the age old problem of how to best manage Perl dependecies installed from
-CPAN.  Using L<local::lib> you can easily create a user level CPAN library root
+L<CPAN>.  Using L<local::lib> you can easily create a user level L<CPAN> library root
 directory and install all your application dependencies into it.  This way when 
 you need a new CPAN module you don't need root access or to work with an
-administrator, nor do you worry about how your new CPAN modules might cause
+administrator, nor do you worry about how your new L<CPAN> modules might cause
 trouble for other users of Perl on a shared server.  L<local::lib> clarifies 
 and simplifies your development and deployment workflow.  If you are not
 convinced you should review the L<local::lib> documentation first.
@@ -31,7 +31,7 @@ However there are two questions that users of L<local::lib> have to answer.  One
 (which is not going to be dealt with here) is "What is the best practice for
 locating and naming my locally lib managed directories?" For the purposes of
 the remaining discussion I will usually describe such a directory as being
-created under the user HOME directory ($HOME or "~" on Unix like machines)
+created under the user "home" directory (C<$HOME> or C<~> on Unix like machines)
 however I know some people prefer to create a 'extlib' directory within the root
 of the application that the L<local::lib> is being created for.  No sides on 
 this question will be currently taken.
@@ -43,7 +43,7 @@ CPAN installed dependencies.
 
 The Perl binary, when you install it, will automatically create a set of 
 directories that are used as a sort of "path" to search for dependencies.
-You can see yours by typing "perl -V" from the command line.  Here's what I see
+You can see yours by typing C<perl -V> from the command line.  Here's what I see
 when I do so on my terminal:
 
   $ perl -V
@@ -56,9 +56,9 @@ when I do so on my terminal:
     /Users/johnn/perl5/perlbrew/perls/perl-5.10.1/lib/site_perl/5.10.1/darwin-thread-multi-2level
     /Users/johnn/perl5/perlbrew/perls/perl-5.10.1/lib/site_perl/5.10.1
 
-Your default search path (or @INC) is typically installed into a global area on
+Your default search path (or C<@INC>) is typically installed into a global area on
 your machine, or as in the case above, when using perlbrew, into a central area
-in your $HOME directory.  You can also see this by dumping @INC and $ENV{PATH}:
+in your $HOME directory.  You can also see this by dumping C<@INC> and C<$ENV{PATH}>:
 
     $ perl -e 'use Data::Dumper; warn Dumper @INC, split(":",$ENV{PATH})'
  
@@ -79,14 +79,14 @@ in your $HOME directory.  You can also see this by dumping @INC and $ENV{PATH}:
     $VAR15 = '/opt/local/bin';
     $VAR16 = '/opt/local/sbin';
 
-Note the directory "/Users/johnn/perl5/perlbrew/perls/current/bin" is in $PATH
+Note the directory C</Users/johnn/perl5/perlbrew/perls/current/bin> is in C<$PATH>
 This is so that any command line utilities installed by CPAN (such as L<App::Ack>)
 will be easy to find and not require you to type in the full path to that tool.
 
 Now, when you create a L<local::lib>, Perl has no way to automatically detect
 it.  Perhaps it would be cool if a future version of Perl could notice the
 presence of a L<local::lib> and add it automatically, but that's not today.  As
-of now you need to tell Perl to modify @INC and $PATH in such a way as that it
+of now you need to tell Perl to modify C<@INC> and C<$PATH> in such a way as that it
 can use your locally lib installed dependencies.
 
 The documentation for L<local::lib> recommends adding a bit of code to your 
@@ -125,8 +125,8 @@ You can see it work like so:
     $VAR20 = '/opt/local/bin';
     $VAR21 = '/opt/local/sbin';
 
-As you can see, the local lib is now added to @INC and $PATH has been altered.
-Additionally, a few other perl %ENV settings are created so that L<CPAN> knows
+As you can see, the local lib is now added to C<@INC> and C<$PATH> has been altered.
+Additionally, a few other perl C<%ENV> settings are created so that L<CPAN> knows
 where to install dependencies.
 
 This is a workable option for deployment, since you are probably scripting that
@@ -139,7 +139,7 @@ So you can use it like:
 
     ~/mylib/bin/localenv bash
 
-And spawn off a subshell where your @INC, $PATH and other important bits have
+And spawn off a subshell where your C<@INC>, C<$PATH> and other important bits have
 been properly setup.  You can then exit the shell when you need to cancel the
 alterations.  Or you can just use the command like
 
@@ -154,10 +154,10 @@ The following are some example usage for this application
 
 =head2 Setting up a development enviroment
 
-Let's say you clone some application down from Github and you are going to
+Let's say you clone some application down from L<http://github.com> and you are going to
 start development.  You will need to setup a L<local::lib> of that applications
 dependencies as part of your job.  You can do so like (from the directory that
-contains the application Makefile.PL)
+contains the application C<Makefile.PL>)
 
     curl -L http://cpanmin.us | perl - -L ~/mylib App::local::lib::helper .
 
@@ -171,8 +171,8 @@ list.
 
 =head2 Installing / Deploying an application
 
-Say you want to install an application from CPAN and just run it on a shared
-server.  Let's assume you have very little or no control beyond your $HOME
+Say you want to install an application from L<CPAN> and just run it on a shared
+server.  Let's assume you have very little or no control beyond your C<$HOME>
 directory.
 
     curl -L http://cpanmin.us | perl - -L ~/mygitalist Gitalist App::local::lib::helper
