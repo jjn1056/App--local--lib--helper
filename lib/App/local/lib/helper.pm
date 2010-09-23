@@ -179,7 +179,7 @@ C<~/mylib>, you can do so like:
 The command C<localenv> will make sure the same L<local:lib> that was active
 when L<App::local::lib::helper> was originally installed is again installed
 into the environment before executing the commands passed in C<@ARGV>.  Upon
-completing the command, the %ENV is restored so that you can use this to fire
+completing the command, the C<%ENV> is restored so that you can use this to fire
 off an application against a specific L<local::lib> without needing to deal
 with the details of how to activate the L<local::lib> or how to make sure
 your C<%ENV> stays clean.

@@ -152,7 +152,7 @@ may differ.  Feedback and thoughts regarding improvements very welcomed.
 
 The following are some example usage for this application
 
-=head2 Setting up a development enviroment
+=head2 Setting up a development environment
 
 Let's say you clone some application down from L<http://github.com> and you are going to
 start development.  You will need to setup a L<local::lib> of that applications
