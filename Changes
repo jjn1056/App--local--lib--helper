@@ -1,3 +1,7 @@
+0.04    27 December 2010
+        -- Updated to my modern Makefile.PL layout
+        -- More docs (thanks jgoulah)
+
 0.03    22 September 2010
         -- Changes to the Makefile.PL for more automation and for clarity. This
            should not effect installation or usage, but should clarify things
