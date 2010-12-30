@@ -58,7 +58,7 @@ when I do so on my terminal:
 
 Your default search path (or C<@INC>) is typically installed into a global area on
 your machine, or as in the case above, when using perlbrew, into a central area
-in your $HOME directory.  You can also see this by dumping C<@INC> and C<$ENV{PATH}>:
+in your C<$HOME> directory.  You can also see this by dumping C<@INC> and C<$ENV{PATH}>:
 
     $ perl -e 'use Data::Dumper; warn Dumper @INC, split(":",$ENV{PATH})'
  
@@ -159,7 +159,7 @@ start development.  You will need to setup a L<local::lib> of that applications
 dependencies as part of your job.  You can do so like (from the directory that
 contains the application C<Makefile.PL>)
 
-    curl -L http://cpanmin.us | perl - -L ~/mylib App::local::lib::helper .
+    curl -L http://cpanmin.us | perl - --local-lib ~/mylib App::local::lib::helper .
 
 and then you can use the bash trick from above to flip on your local lib
 environment:
@@ -175,7 +175,7 @@ Say you want to install an application from L<CPAN> and just run it on a shared
 server.  Let's assume you have very little or no control beyond your C<$HOME>
 directory.
 
-    curl -L http://cpanmin.us | perl - -L ~/mygitalist Gitalist App::local::lib::helper
+    curl -L http://cpanmin.us | perl - --local-lib ~/mygitalist Gitalist App::local::lib::helper
 
 Here we are running cpanminus directly off the web, installing L<Gitalist>, a
 L<Catalyst> based git web front end, and setting up a local lib helper for it.
@@ -185,6 +185,22 @@ We can then startup L<Gitalist>:
     ~/mygitalist/bin/localenv gitalist_server.pl --repo_dir $REPO
 
 Hopefully this eases some of your deployment issues!
+
+=head2 Using in an applicatin or module Makefile.PL
+
+If you add this as a requirement to your C<Makefile.PL> and it is installed into
+a C<local::lib> the helper will automatically be added.
+
+Example C<Makefile.PL>
+
+    #!/usr/bin/env perl
+
+    use strict;
+    use warnings FATAL => 'all';
+    use inc::Module::Install;
+
+    requires 'App::local::lib::helper';
+    ## rest of your file
 
 =head1 AUTHOR
 

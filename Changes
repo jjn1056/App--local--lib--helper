@@ -1,6 +1,7 @@
-0.04    27 December 2010
+0.04    30 December 2010
         -- Updated to my modern Makefile.PL layout
-        -- More docs (thanks jgoulah)
+        -- More docs (thanks jgoulah for suggestions)
+        -- reduce required Perl version to 5.8.5
 
 0.03    22 September 2010
         -- Changes to the Makefile.PL for more automation and for clarity. This

@@ -4,8 +4,20 @@ App::local::lib::helper - Make it easy to run code against a local-lib
 
 # SYNOPSIS
 
+Installing and using the helper (common usage)
+
+    cpanm --local-lib ~/mylib App::local::lib::helper
+    ~/mylib/bin/localenv bash
+
+Customizing the helper creation (advanced use only)
+
     use App::local::lib::helper;
     App::local::lib::helper->run(%opts);
+
+Note, if you don't have `cpanm` already installed you can use the web service
+version like so instead for all examples:
+
+    curl -L http://cpanmin.us/ | perl - --local-lib ~/mylib App::local::lib::helper
 
 # DESCRIPTION
 
@@ -15,7 +27,7 @@ a target directory of choice.  By default the script is called `localenv` and
 can be used to invoke a command under the [local::lib](http://search.cpan.org/perldoc?local::lib) which it was built
 against.  For example, assume you build a [local::lib](http://search.cpan.org/perldoc?local::lib) like so:
 
-    cpanm -L ~/mylib App::local::lib::helper
+    cpanm --local-lib ~/mylib App::local::lib::helper
 
 Note what is happening.  First, you are telling cpanminus to install everything
 to a local::lib directory called `~/mylib` (cpanminus behind the scenes uses
@@ -56,7 +68,7 @@ Another example usage would be when you want to install an application from
 CPAN, install it and all its dependencies to a single directory root and 
 then run it without a lot of effort.  For example:
 
-    cpanm -L ~/gitalyst-libs Gitalist App::local::lib::helper
+    cpanm --local-lib ~/gitalyst-libs Gitalist App::local::lib::helper
     ~/gitalyst-libs/bin/localenv gitalyst-server.pl
 
 And presto! Your cpan installed application is running, fully self-contained to
@@ -120,10 +132,24 @@ This distribution installs the following [local::lib](http://search.cpan.org/per
 This is a perl script that runs a single command in [local::lib](http://search.cpan.org/perldoc?local::lib) aware context.
 You can use the `helper-name` option to set a different name.
 
+Typically I will use this to 'enable' a previously setup [local::lib](http://search.cpan.org/perldoc?local::lib) with
+commands like:
+
+    ~/mylocallib/bin/localenv bash
+    ~/mylocallib/bin/localenv screen
+
 ## localenv-bashrc
 
 a snippet suitable for sourcing in your .bashrc, which will automatically
 activate a local-lib at login.  Name will follow from `helper-name`.
+
+Here's an example of the line I might add to .bashrc (assumes you have setup
+[local::lib](http://search.cpan.org/perldoc?local::lib) in `$HOME/mylocal`
+
+    source $HOME/mylocal/localenv-bashrc
+
+Then next time you open a shell you should see that `$PATH` and `PERL5LIB`
+have been properly changed.
 
 ## localenv-cshrc
 
