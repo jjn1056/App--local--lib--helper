@@ -301,6 +301,70 @@ commands like:
     ~/mylocallib/bin/localenv bash
     ~/mylocallib/bin/localenv screen
 
+Or I can use it to run a single command wrapped in the L<local::lib> target
+and exit cleanly:
+
+    ~/mylocallib/bin/localenv perl app.pl
+    ~/mylocallib/bin/localenv plackup app.psgi
+
+=head2 localenv-relative
+
+NOTE: Experimental feature.  Please prefer using L</localenv> unless you 
+absolutely need this functionality.
+
+This perl script functions (or should function) identically to L<localenv> as
+documented.  However, instead of having hardcoded full paths to your Perl
+binary and L<local::lib> target directories, we instead try to use relative
+pathing.  For example, here is the helper script built on my server for the
+standard L</localenv> script:
+
+    #!/Users/johnn/perl5/perlbrew/perls/perl-5.14.1/bin/perl
+
+    use strict;
+    use warnings;
+
+    use lib '/Users/johnn/locallib_5_14_1/lib/perl5';
+    use local::lib '/Users/johnn/locallib_5_14_1';
+
+    unless ( caller ) {
+        if ( @ARGV ) {
+            exec @ARGV;
+        }
+    }
+
+And here is the example same version for the relative script:
+
+    #!/usr/bin/env perl
+
+    use strict;
+    use warnings;
+
+    use FindBin;
+    use File::Spec;
+    use lib File::Spec->catdir($FindBin::Bin, '..', 'lib', 'perl5');
+    use local::lib File::Spec->catdir($FindBin::Bin, '..');
+
+    unless ( caller ) {
+        if ( @ARGV ) {
+            exec @ARGV;
+        }
+    }
+
+The goal here is to be more friendly when you need to relocate your
+installation of Perl and/or your L<local::lib> target directory.  You might
+wish to try this if you are copying a 'seed' Perl and L<local::lib> setup to
+multiple developer home directories (as a way to speed up first time developer
+setup, for example) or if your deployment system copies your application from
+your build enviroment to a QA or Production that is not identical.
+
+Personally I prefer to build Perl and my application in each location that is
+different, since I find that works very effectively.  However I understand some
+shops have existing build systems that work this way so I'd like to accomodate.
+However I can't be certain tha moving Perl and L<local::lib> around rather than
+performing a true install is going to work. Caveat emptor!
+
+Please also note that the following shell snippets are not relative tested.
+
 =head2 localenv-bashrc
 
 a snippet suitable for sourcing in your .bashrc, which will automatically
@@ -326,7 +390,7 @@ John Napiorkowski C< <<jjnapiork@cpan.org>> >
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2010, John Napiorkowski
+Copyright 2011, John Napiorkowski
 
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
