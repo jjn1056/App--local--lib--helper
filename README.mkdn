@@ -42,7 +42,7 @@ Now, if you want to invoke a perl application and use libs installed into
 
     ~/mylib/bin/localenv perl [SOME COMMAND]
 
-The command `localenv` will make sure the same L<local:lib> that was active
+The command `localenv` will make sure the same [local::lib](http://search.cpan.org/perldoc?local::lib) that was active
 when [App::local::lib::helper](http://search.cpan.org/perldoc?App::local::lib::helper) was originally installed is again installed
 into the environment before executing the commands passed in `@ARGV`.  Upon
 completing the command, the `%ENV` is restored so that you can use this to fire

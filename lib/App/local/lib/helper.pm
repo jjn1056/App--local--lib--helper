@@ -5,7 +5,7 @@ use warnings;
 use File::Spec;
 
 use 5.008005;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 sub run {
     my ($class, %opts) = @_;
@@ -188,7 +188,7 @@ C<~/mylib>, you can do so like:
 
     ~/mylib/bin/localenv perl [SOME COMMAND]
 
-The command C<localenv> will make sure the same L<local:lib> that was active
+The command C<localenv> will make sure the same L<local::lib> that was active
 when L<App::local::lib::helper> was originally installed is again installed
 into the environment before executing the commands passed in C<@ARGV>.  Upon
 completing the command, the C<%ENV> is restored so that you can use this to fire
