@@ -6,13 +6,13 @@ use File::Spec;
 
 all_from 'lib/App/local/lib/helper.pm';
 
+requires 'FindBin';
 requires 'File::Spec';
 requires 'local::lib';
+requires 'Getopt::Long';
+requires 'Config';
 
-test_requires 'Getopt::Long';
-test_requires 'Config';
 test_requires 'Test::More' => '0.94';
-
 tests_recursive;
 
 install_script glob('script/local-lib-helper');

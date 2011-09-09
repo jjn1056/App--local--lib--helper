@@ -44,7 +44,9 @@ sub create_local_lib_helper {
         $self->diag("My target local::lib is $target");
         $self->_create_local_lib_helper_bashrc($target);
         $self->_create_local_lib_helper_cshrc($target);
-        return $self->_create_local_lib_helper($target);
+        $self->_create_local_lib_helper_relative($target);
+        $self->_create_local_lib_helper($target);
+        return 1;
     }
     
     $self->diag(<<DIAG);
@@ -57,7 +59,6 @@ DIAG
 }
 
 sub has_local_lib_env {
-    my $self = shift @_;
     if(
         $ENV{PERL_MM_OPT} and 
         ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT})
@@ -68,18 +69,31 @@ sub has_local_lib_env {
     }
 }
 
-sub _create_local_lib_helper {
+sub _create_file {
+    my ($self, $filename, $permissions, $text) = @_;
+    open (my $fh, '>', $filename)
+      || $self->error("Can't open $filename", $!);
+
+    print $fh $text;
+
+    close($fh);
+    chmod oct($permissions), $filename;
+    return $filename;
+}
+
+sub _find_or_create_lib_bindir_from {
     my ($self, $target) = @_;
     my $lib = File::Spec->catdir($target, 'lib', 'perl5');
-    my $bin = File::Spec->catdir($target, 'bin');
-    unless(-e $bin) {
-        mkdir $bin;
-    }
-    $bin = File::Spec->catdir($bin, $self->{helper_name});
-    open(my $bin_fh, '>', $bin)
-      or $self->error("Can't open $bin", $!);
+    my $bindir = File::Spec->catdir($target, 'bin');
+    mkdir $bindir unless(-e $bindir);
+    return ($lib, $bindir);
+}
 
-    print $bin_fh <<"END";
+sub _create_local_lib_helper {
+    my ($self, $target) = @_;
+    my ($lib, $bindir) = $self->_find_or_create_lib_bindir_from($target);
+    my $bin = File::Spec->catdir($bindir, $self->{helper_name});
+    $self->_create_file($bin, $self->{helper_permissions}, <<END);
 #!$self->{which_perl}
 
 use strict;
@@ -93,53 +107,52 @@ unless ( caller ) {
         exec \@ARGV;
     }
 }
-
-1;
 END
 
-    close($bin_fh);
-    chmod oct($self->{helper_permissions}), $bin;
-    return $bin;
+}
+
+sub _create_local_lib_helper_relative {
+    my ($self, $target) = @_;
+    my ($lib, $bindir) = $self->_find_or_create_lib_bindir_from($target);
+    my $bin = File::Spec->catdir($bindir, $self->{helper_name}.'-relative');
+    $self->_create_file($bin, $self->{helper_permissions}, <<END);
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use FindBin;
+use File::Spec;
+use lib File::Spec->catdir(\$FindBin::Bin, '..', 'lib', 'perl5');
+use local::lib File::Spec->catdir(\$FindBin::Bin, '..');
+
+unless ( caller ) {
+    if ( \@ARGV ) {
+        exec \@ARGV;
+    }
+}
+END
+
 }
 
 sub _create_local_lib_helper_bashrc {
     my ($self, $target) = @_;
-    my $lib = File::Spec->catdir($target, 'lib', 'perl5');
-    my $bin = File::Spec->catdir($target, 'bin');
-    unless(-e $bin) {
-        mkdir $bin;
-    }
-    $bin = File::Spec->catdir($bin, $self->{helper_name}.'-bashrc');
-    open(my $bin_fh, '>', $bin)
-      or $self->error("Can't open $bin", $!);
-
-    print $bin_fh <<"END";
+    my ($lib, $bindir) = $self->_find_or_create_lib_bindir_from($target);
+    my $bin = File::Spec->catdir($bindir, $self->{helper_name}.'-bashrc');
+    $self->_create_file($bin, $self->{helper_permissions}, <<END);
 eval \$($self->{which_perl} -I$lib -Mlocal::lib=$target)
 END
 
-    close($bin_fh);
-    chmod oct($self->{helper_permissions}), $bin;
-    return $bin;
 }
 
 sub _create_local_lib_helper_cshrc {
     my ($self, $target) = @_;
-    my $lib = File::Spec->catdir($target, 'lib', 'perl5');
-    my $bin = File::Spec->catdir($target, 'bin');
-    unless(-e $bin) {
-        mkdir $bin;
-    }
-    $bin = File::Spec->catdir($bin, $self->{helper_name}.'-cshrc');
-    open(my $bin_fh, '>', $bin)
-      or $self->error("Can't open $bin", $!);
-
-    print $bin_fh <<"END";
+    my ($lib, $bindir) = $self->_find_or_create_lib_bindir_from($target);
+    my $bin = File::Spec->catdir($bindir, $self->{helper_name}.'-cshrc');
+    $self->_create_file($bin, $self->{helper_permissions}, <<END);
 $self->{which_perl} -I$lib -Mlocal::lib=$target
 END
 
-    close($bin_fh);
-    chmod oct($self->{helper_permissions}), $bin;
-    return $bin;
 }
 
 1;

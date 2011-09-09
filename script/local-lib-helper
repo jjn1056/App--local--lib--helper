@@ -3,19 +3,15 @@
 use Getopt::Long ();
 use Config;
 use FindBin;
-use lib "$FindBin::Bin/../lib";
+use File::Spec;
+use lib File::Spec->catdir($FindBin::Bin, '..', 'lib');
 use App::local::lib::helper;
 
-if(
-    @ARGV ||
-    ($ENV{PERL_MM_OPT} and 
-    ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT}))
-) {
-
+if( @ARGV || App::local::lib::helper->has_local_lib_env) {
     my $help = 0;
     my $which_perl = $ENV{LOCALLIB_HELPER_WHICH_PERL} || $Config{perlpath};
     my $target = $ENV{LOCALLIB_HELPER_TARGET} || undef;
-    my $helper_name = $ENV{LOCALLIB_HELPER_HELPER_NAME} || 'localenv';
+    my $helper_name = $ENV{LOCALLIB_HELPER_HELPER_NAME} || 'localenv4';
     my $helper_permissions = $ENV{LOCALLIB_HELPER_HELPER_PERMISSIONS} || '0755';
 
     my $result = Getopt::Long::GetOptions(
