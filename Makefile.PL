@@ -1,8 +1,7 @@
 #!/usr/bin/env perl
 
-use lib 'maint/lib';
-use Maker;
 use File::Spec;
+use maint::lib::Maker;
 
 all_from 'lib/App/local/lib/helper.pm';
 
@@ -12,7 +11,9 @@ requires 'local::lib';
 requires 'Getopt::Long';
 requires 'Config';
 
+build_requires 'File::Spec';
 test_requires 'Test::More' => '0.94';
+
 tests_recursive;
 
 my $local_lib_helper_script =
