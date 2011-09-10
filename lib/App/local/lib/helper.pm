@@ -359,9 +359,16 @@ your build enviroment to a QA or Production that is not identical.
 
 Personally I prefer to build Perl and my application in each location that is
 different, since I find that works very effectively.  However I understand some
-shops have existing build systems that work this way so I'd like to accomodate.
-However I can't be certain tha moving Perl and L<local::lib> around rather than
-performing a true install is going to work. Caveat emptor!
+shops have existing build systems that deploy code by copying Perl dependencies
+from box to box, and these boxes are not always identical in directory layout.
+For example, there might be a build or integration point in development, with
+a L<local::lib> target of C</home/integration/webapp-cpan-locallib> and you
+wish to copy that directory recursively to your qa/production server, which 
+might be located at C</home/qa/local-lib>.
+
+I'd like to accomodate this approach as best I can, however I can't be certain
+that moving Perl and L<local::lib> around rather than performing a true install
+is going to work consistently. Caveat emptor!
 
 Please also note that the following shell snippets are not relative tested.
 
