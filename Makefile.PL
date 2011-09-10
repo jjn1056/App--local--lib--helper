@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use File::Spec;
-use maint::lib::Maker;
+use maint::Maker;
 
 all_from 'lib/App/local/lib/helper.pm';
 
