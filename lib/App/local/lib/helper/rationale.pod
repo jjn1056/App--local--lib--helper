@@ -204,14 +204,11 @@ Example C<Makefile.PL>
 
 =head1 AUTHOR
 
-John Napiorkowski C< <<jjnapiork@cpan.org>> >
+See L<App::local::lib::helper> for Authorship information
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2011, John Napiorkowski
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+See L<App::local::lib::helper> for Copyright and Licensing information.
 
 =cut
 
