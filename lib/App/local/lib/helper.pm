@@ -26,7 +26,7 @@ sub error {
     shift->_diag(@_);
     die "Exiting with Errors";
 }
-   
+
 sub new {
     my ($class, %opts) = @_;
     return bless \%opts, $class;
@@ -38,7 +38,7 @@ sub create_local_lib_helper {
         return $self->_create_local_lib_helper($target);
     } elsif ($self->has_local_lib_env) {
         my ($install_base, $target) =
-            map {split '=', $_} 
+            map {split '=', $_}
             grep { m/^INSTALL_BASE/ }
             split ' ', $ENV{PERL_MM_OPT};
         $self->diag("My target local::lib is $target");
@@ -48,7 +48,7 @@ sub create_local_lib_helper {
         $self->_create_local_lib_helper($target);
         return 1;
     }
-    
+
     $self->diag(<<DIAG);
   !
   ! You are not installing the helper script while in a local::lib context nor
@@ -60,7 +60,7 @@ DIAG
 
 sub has_local_lib_env {
     if(
-        $ENV{PERL_MM_OPT} and 
+        $ENV{PERL_MM_OPT} and
         ($ENV{MODULEBUILDRC} or $ENV{PERL_MB_OPT})
     ) {
         return 1;
