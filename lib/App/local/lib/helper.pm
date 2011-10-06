@@ -5,7 +5,7 @@ use warnings;
 use File::Spec;
 
 use 5.008005;
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 sub run {
     my ($class, %opts) = @_;

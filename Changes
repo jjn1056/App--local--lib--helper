@@ -1,3 +1,6 @@
+0.07    06 October 2011
+        -- updated the build tools to stop failing on CPANPLUS
+
 0.06    12 September 2011
         -- make sure we don't index Maker
 
